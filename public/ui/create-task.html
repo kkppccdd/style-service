@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="createTaskApp">
+<head>
+<link rel="stylesheet"
+	href="/assets/lib/bootstrap/css/bootstrap.min.css"></link>
+<script src='/assets/lib/angularjs/angular.min.js'></script>
+<script src='/assets/javascripts/ui/create-task.js'></script>
+</head>
+<body >
+	<div class="page-header">
+		<h1>畫坊</h1>
+	</div>
+	<div class="container" ng-controller="CreateTaskFormController">
+		<form id="create-task-form" name="create_task_form" action="/service/task/create" enctype="multipart/form-data" method="POST" style="display:none;">
+			<input id="content-image-input" name="content-image" type="file" class="ng-hide" onchange="angular.element(this).scope().setFile(this)"/> 
+			<input name="style" value="starry-night" type="hidden"/>
+		</form>
+		<div class="row">
+			<div class="alert alert-info" role="alert">给你画幅梵高名作《星空》风格的油画</div>
+			<div id="content-image-container" class="col-xs-6 col-md-3">
+				<a href="#" class="thumbnail" ng-click="clickContentImage()"> <img ng-src="{{contentImage}}" alt="choose content image">
+				</a>
+			</div>
+			<div  class="col-xs-6 col-md-3" >
+				<div class="thumbnail" style="border:0px;"> <img src="/assets/images/plus.png" alt="plus">
+				</div>
+			</div>
+			<div  id="style-image-container" class="col-xs-6 col-md-3" >
+				<div class="thumbnail"> <img src="/assets/images/starry_night.jpg" alt="style image">
+				</div>
+			</div>
+			<button class="btn btn-default" type="submit" ng-click="submitCreateTaskForm()">确定</button>
+		</div>
+	</div>
+</body>
+</html>

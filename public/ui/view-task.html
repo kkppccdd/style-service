@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="viewTaskApp">
+<head>
+<link rel="stylesheet"
+	href="/assets/lib/bootstrap/css/bootstrap.min.css"></link>
+<script src='/assets/lib/angularjs/angular.min.js'></script>
+<script src='/assets/lib/angularjs/angular-route.min.js'></script>
+<script src='/assets/lib/angularjs/angular-resource.min.js'></script>
+<script src='/assets/javascripts/ui/view-task.js'></script>
+</head>
+<body>
+	<div class="page-header">
+		<h1>畫坊</h1>
+	</div>
+	<div class="container" ng-controller="viewTaskController">
+		<div class="row">
+			<div class="alert alert-info" role="alert">藝術需要時間。。。</div>
+			<div id="content-image-container" class="col-xs-12 col-md-12">
+				<div class="thumbnail">
+					<img ng-src="{{task.outputImageUrl}}" alt="output image">
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div id="content-image-container" class="col-xs-5 col-md-5">
+				<div class="thumbnail">
+					<img ng-src="{{task.contentImageUrl}}" alt="content image">
+				</div>
+			</div>
+			<div class="col-xs-2 col-md-2">
+				<div class="thumbnail" style="border: 0px;">
+					<img src="/assets/images/plus.png" alt="plus">
+				</div>
+			</div>
+			<div id="style-image-container" class="col-xs-5 col-md-5">
+				<div class="thumbnail">
+					<img src="/assets/images/starry_night.jpg" alt="style image">
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

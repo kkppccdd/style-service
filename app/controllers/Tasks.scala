@@ -61,13 +61,16 @@ class Tasks @Inject() (val reactiveMongoApi: ReactiveMongoApi)
   private val sqsReceiver = {
     val sqsQueneUrl = app.configuration.getString("sqs.queue.completion.url").get
 
-    new SQSReceiver(sqsQueneUrl,  { message: Message =>
+    new SQSReceiver(sqsQueneUrl, { message: Message =>
       {
         Logger.debug(message.getBody)
         val task = objectMapper.readValue(message.getBody, classOf[Task])
 
         val selector = BSONDocument("_id" -> task.id)
-        collection.update(selector, task) onComplete {
+        val modifier = BSONDocument(
+          "$set" -> BSONDocument(
+            "outputImageUrl" -> task.outputImageUrl.get))
+        collection.update(selector, modifier) onComplete {
           case Failure(e) =>
             Logger.error(e.getMessage, e)
           case Success(lastError) => {
@@ -118,7 +121,7 @@ class Tasks @Inject() (val reactiveMongoApi: ReactiveMongoApi)
               // send event
               val messageBody = objectMapper.writeValueAsString(task)
               sqsSender.sendMessage(messageBody).map { messageId =>
-                Ok(s"Successfully inserted with LastError: $lastError")
+                Ok(Json.toJson(task))
               }.getOrElse {
                 InternalServerError("Send event to sqs queue failed")
               }
@@ -137,6 +140,17 @@ class Tasks @Inject() (val reactiveMongoApi: ReactiveMongoApi)
       }.getOrElse {
         Future.successful(BadRequest("Content image missed"))
       }
+  }
+
+  def getTask(id: String) = Action.async(parse.anyContent) {
+    request =>
+      val selector = BSONDocument("_id" -> id)
+      val future = collection.find(selector).one[Task]
+      for {
+        maybeTask <- future
+        result <- maybeTask.map { task => Future(Ok(Json.toJson(task))) }.getOrElse(Future(NotFound))
+      } yield result
+
   }
 }
 

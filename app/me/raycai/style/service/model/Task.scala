@@ -1,6 +1,6 @@
 package me.raycai.style.service.model
 
-case class Task(private val _id:String, style:String,contentImageUrl:String,outputImageUrl:Option[String]){
+case class Task(_id:String, style:String,contentImageUrl:String,outputImageUrl:Option[String]){
   def id = _id
 }
 

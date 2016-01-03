@@ -11,6 +11,23 @@
 		<h1>畫坊</h1>
 	</div>
 	<div class="container" ng-controller="CreateTaskFormController">
+		<div class="row">
+			<div class="panel panel-default">
+				<div class="panel-heading">我的畫作</div>
+				<div class="panel-body">
+					<div class="row">
+						<div ng-repeat="task in myTasks">
+							<div class="col-xs-4 col-sm-2 col-md-1">
+								<a href="/assets/ui/view-task.html#?taskId={{task._id}}" class="thumbnail"> <img
+									ng-src="{{task.outputImageUrl || task.contentImageUrl}}" alt="">
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
 		<form id="create-task-form" name="create_task_form"
 			action="/service/task/create" enctype="multipart/form-data"
 			method="POST" style="display: none;">

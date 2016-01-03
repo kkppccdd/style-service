@@ -1,7 +1,7 @@
 language: scala
 jdk: oraclejdk8
 scala:
-	- 2.11.7
+  - 2.11.7
 env:
   - ACTIVATOR_VERSION=1.3.6 \
     ACTIVATOR_ZIP_FILE=typesafe-activator-${ACTIVATOR_VERSION}-minimal.zip \
